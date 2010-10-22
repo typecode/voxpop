@@ -1,0 +1,30 @@
+<VirtualHost *:80>
+        ServerAdmin amahon@gmail.com
+
+        ProxyPass /vp/ http://localhost:8080/
+		<Proxy http://localhost:8080/>
+			Order Allow,Deny
+			Allow from all
+		</Proxy>
+
+        DocumentRoot /home/voxpop/httpdocs
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /home/voxpop/httpdocs>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        ErrorLog /var/log/apache2/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog /var/log/apache2/access.log combined
+
+</VirtualHost>

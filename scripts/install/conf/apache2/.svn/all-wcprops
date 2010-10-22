@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/291/install/conf/apache2
+END
+collectd
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/291/install/conf/apache2/collectd
+END
+ports.conf
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/291/install/conf/apache2/ports.conf
+END
+voxpop
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/281/install/conf/apache2/voxpop
+END
