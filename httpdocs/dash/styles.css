@@ -1,0 +1,189 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+body{
+	font-family: Helvetica, Arial, sans-serif;
+	color:#444444;
+	font-size: 12px;
+
+}
+
+a{
+	color:#444444;
+	border-bottom: 1px dotted #333;
+	padding: 2px 1px 1px 1px;
+	text-decoration: none;
+}
+
+a:hover{
+	color:#696b6d;
+	border-bottom: 1px dotted #696b6d;
+}
+
+.nMeta{
+	font-style: italic;
+	font-weight: normal;
+}
+
+.clear{
+	clear:both;	
+}
+
+strong{
+	font-weight: bold;	
+}
+
+h2{
+	font-size:16px;
+	font-weight: bold;
+	margin-bottom: 15px;
+	color:#7e7e7e;
+}
+
+h3{
+	font-size:14px;
+	font-weight: bold;
+	margin-bottom: 12px;
+	float: left;
+}
+
+h4{
+	font-size:12px;
+	font-weight: normal;
+	margin-bottom: 10px;
+}
+
+h5{
+	font-size:12px;
+	font-weight: bold;
+	margin-bottom: 12px;
+	float: left;
+}
+
+/**** Sentiment Colors ****/
+
+.pos{
+	background-color: #fff200;
+	font-weight: bold;
+	padding: 1px 3px 1px 3px;
+}
+
+.neg{
+	background-color: #99d7ee;
+	font-weight: bold;
+	/*color: #ffffff;*/
+	padding: 1px 3px 1px 3px;
+}
+
+.keyword{
+	font-weight: bold;
+	padding: 2px 0px 0px 2px;
+}
+
+/**** Page Structure ****/
+
+
+#wrapper{
+	background-color:;
+	width: 800px;
+	margin: 0px auto;
+	margin-top: 30px;
+	background-color:#2a2a2a;
+}
+
+#leftCol{
+	width: 170px;
+	float:left;
+}
+
+#logo{
+	width: 125px;
+	height: 40px;
+	background-image: url(images/logo.png);
+	background-repeat: no-repeat;
+	margin-bottom: 30px;
+}
+
+#topics{
+	margin-left: 4px;
+}
+
+#topics li{
+	margin-bottom: 20px;
+	border-left: 13px solid #5ec3ae;
+	padding-left: 7px;
+	font-weight: bold;
+}
+
+#content{
+	width: 615px;
+	margin: 71px 0 25px 12px;
+	float: left;
+}
+
+#content h2{
+	border-left: 17px solid #5ec3ae;
+	padding-left: 10px;
+	color:#444444;
+}
+
+.aHolder{
+	width:593px;
+	background-color:#e5e4e4;
+	padding: 10px 12px 5px 10px;
+	border-top: 2px solid #d8d8d8;
+}
+
+.showHide{
+	float:right;
+	
+}
+
+.posNum{
+	font-size: 10px;
+	font-weight: bold;
+	float: left;
+	margin: 0 0 10px 0;
+	padding: 2px 0px 0px 5px;
+	border-left: 6px solid #fff200; 
+}
+
+.negNum{
+	font-size: 10px;
+	font-weight: bold;
+	float:left;
+	margin: 0 0 10px 15px;
+	padding: 2px 0px 0px 5px;
+	border-left: 6px solid #00aeef;
+
+}
+
+
+
+.sentiment{
+	height: 15px;
+	background-color: #81ca9c;
+	margin-bottom: 10px;
+}
+
+.comment{
+	margin-left: 20px;
+}
+
+.comment p{
+	line-height: 18px;
+	margin-bottom: 10px;
+}
+
+
+
+.cHolder{
+	width:573px;
+	background-color:#f5f4f4;
+	padding: 10px 12px 5px 10px;
+	border-top: 2px solid #e5e4e4;
+	
+}
+
+
