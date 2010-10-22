@@ -1,15 +1,20 @@
 
- __   __   ______     __  __     ______   ______     ______
-/\ \ / /  /\  __ \   /\_\_\_\   /\  == \ /\  __ \   /\  == \
-\ \ \'/   \ \ \/\ \  \/_/\_\/_  \ \  _-/ \ \ \/\ \  \ \  _-/
- \ \__|    \ \_____\   /\_\/\_\  \ \_\    \ \_____\  \ \_\
-  \/_/      \/_____/   \/_/\/_/   \/_/     \/_____/   \/_/
-   Version 0.3 - 2010 - Andrew Mahon, Zeke Shore
+   `7MMF'   `7MF' .g8""8q.`YMM'   `MP' `7MM"""Mq.   .g8""8q. `7MM"""Mq. 
+     `MA     ,V .dP'    `YM.VMb.  ,P     MM   `MM..dP'    `YM. MM   `MM.
+      VM:   ,V  dM'      `MM `MM.M'      MM   ,M9 dM'      `MM MM   ,M9 
+       MM.  M'  MM        MM   MMb       MMmmdM9  MM        MM MMmmdM9  
+       `MM A'   MM.      ,MP ,M'`Mb.     MM       MM.      ,MP MM       
+        :MM;    `Mb.    ,dP',P   `MM.    MM       `Mb.    ,dP' MM       
+         VF       `"bmmd"'.MM:.  .:MMa..JMML.       `"bmmd"' .JMML.  
+         
+         
+         
+         Version 0.3 - 2010 - Andrew Mahon, Zeke Shore
 
 
-The following commands will bootstrap and install VoxPop on instances of the following EC2 AMIs:
-    *
-    *
+   The following commands will bootstrap and install VoxPop on instances of 
+      the following EC2 AMIs:
+        * ami-6743ae0e [063491364108/ubuntu-9.10-karmic-server-i386-20100121]
 
 curl -O http://github.com/typecode/voxpop/raw/master/scripts/install/install_voxpop_64bit.command
 chmod +x install_voxpop_64bit.command
