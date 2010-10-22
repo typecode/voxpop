@@ -264,13 +264,14 @@ echo ''
 echo ''
 echo '========INSTALLING VoxPop============'
 echo 'Please enter the password for your VoxPop user.'
-su voxpop -c "svn checkout http://voxpoptc.googlecode.com/svn/branches/v2 ~/"
+#su voxpop -c "svn checkout http://voxpoptc.googlecode.com/svn/branches/v2 ~/"
+su voxpop -c "git clone git://github.com/typecode/voxpop.git ~/"
 
 echo ''
 echo ''
 echo '========Applying VOXPOP Permissions============'
 echo 'Applying Permissions to Beanstalkd Collectd Script'
-sudo chmod +x /home/voxpop/scripts/beanstalkd_collectd.rb
+sudo chmod +x /home/voxpop/voxpop/scripts/beanstalkd_collectd.rb
 
 echo ''
 echo ''
@@ -281,4 +282,4 @@ echo ''
 echo ''
 echo '========STARTING VoxPop============'
 echo 'Please enter the password for your VoxPop user.'
-su voxpop -c "~/scripts/init_voxpop.command"
+su voxpop -c "~/voxpop/scripts/init_voxpop.command"
