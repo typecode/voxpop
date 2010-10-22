@@ -1,0 +1,47 @@
+env:
+-   name: LOCAL
+    version: 0.1
+
+queue:
+-   tick_delay: 1.0
+    other: nope
+
+nyt_article:
+-   key: 6b386fbb1141bc111298f599fe611bab:1:49052537
+    url: http://api.nytimes.com/svc/search/v1/article?
+    response_size: 10
+    rate_limit: 8
+    daily_limit: 5000
+nyt_community_zeke:
+-   key: 9ae3b5b468f64435e134861c23b8f052:9:59522003
+    url: http://api.nytimes.com/svc/community/v2/
+    response_size: 25
+    rate_limit: 8
+    daily_limit: 5000
+nyt_community:
+-   key: 3cd7b97dd0c16c8523ea7ccba7f5fdd1:13:49052537
+    url: http://api.nytimes.com/svc/community/v2/
+    response_size: 25
+    rate_limit: 8
+    daily_limit: 5000
+nyt_newswire:
+-   key: a03dbd6f46b771a78288ba7df573d250:13:49052537 
+    url: http://api.nytimes.com/svc/news/v2/all?
+nyt_people:
+-   key: c2239bbc636418298fbda5a2448f79e3:7:49052537
+    url: http://api.nytimes.com/svc/timespeople/api/v1/user?
+    response_size: 
+    daily_limit: 
+nyt_tags:
+-   key: 17f55d2075dcba1ec73f1d265e7b72ac:8:49052537
+    url: http://api.nytimes.com/svc/timestags/suggest?
+    response_size: 
+    daily_limit: 
+      
+couchdb:
+-   name: voxpop_dev
+    url: http://localhost:5984
+    
+NLP:
+-   name: lasswell
+    current_version: 1

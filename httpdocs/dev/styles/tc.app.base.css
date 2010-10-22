@@ -1,0 +1,22 @@
+* { margin:0px;padding:0px;  }
+html { height:100%; }
+body{ 
+	overflow-y:scroll;}
+
+
+.clear{ clear:both; }
+
+#header{ width:100%;background-color:#ebebeb; text-align:right; }
+#header a { padding:5px; }
+
+#text_panel{ width:90%;margin:30px auto 0px auto;
+  position:relative;background-color:#ebebeb;  }
+  #text_form { width:100%; float:right; clear:right;   }
+    #text_form textarea { width:80%; float:right; margin:10px 3% 10px 3%; }
+    #text_form a { float:right; clear:right; margin:10px 3% 10px 3%; }
+
+#response_panel{ width:90%;margin:30px auto 0px auto;
+  position:relative;  }
+#response_panel ul{ list-style-type:none; }
+#response_panel ul li{ list-style-type:none;  }
+#response_panel ul li.loader{ text-align:center; }

@@ -20,7 +20,7 @@ ROUTES = (
 	r'/universe/?([^/.]*)/?([^/.]*)', 'controllers.universe.Universe',
 	r'/dashboard/?([^/.]*)/?([^/.]*)', 'controllers.dashboard.Dashboard',
 	r'/query/?([^/.]*)/?([^/.]*)', 'controllers.query.Query',
-	r'/text/?([^/.]*)/', 'controllers.text.Text',
+	r'/text/', 'controllers.text.Text',
 	r'/voxpop/?([^/.]*)/?([^/.]*)', 'controllers.main.Main',
 	r'/?([^/.]*)', 'controllers.main.Main'
 )

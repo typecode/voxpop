@@ -2,9 +2,9 @@ import logging, os, pickle, sys
 import voxpop
 from controllers.controller import *
 import nytTags
-import nytArticle
-import nytCommunity
-import vpStats
+import nyt.nytArticle
+import nyt.nytCommunity
+import vp.vpStats
 
 class Stats(Controller):
 	

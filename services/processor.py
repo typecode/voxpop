@@ -7,7 +7,7 @@ import simplejson as json
 from lib import couch
 from lib import nltk
 from nltk import *
-from config import *
+from config.config import *
 from util import *
 
 #lv = [-1,0,1]

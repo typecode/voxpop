@@ -1,0 +1,90 @@
+[Fri, 22 Oct 2010 20:52:15 GMT] [info] [<0.32.0>] Apache CouchDB has started on http://127.0.0.1:5984/
+
+[Fri, 22 Oct 2010 20:52:49 GMT] [info] [<0.134.0>] 127.0.0.1 - - 'GET' /_all_dbs 200
+
+[Fri, 22 Oct 2010 20:52:49 GMT] [info] [<0.95.0>] 127.0.0.1 - - 'GET' /_session 200
+
+[Fri, 22 Oct 2010 20:52:49 GMT] [info] [<0.135.0>] 127.0.0.1 - - 'GET' / 200
+
+[Fri, 22 Oct 2010 20:52:52 GMT] [info] [<0.95.0>] 127.0.0.1 - - 'GET' /_all_dbs 200
+
+[Fri, 22 Oct 2010 20:52:52 GMT] [info] [<0.133.0>] 127.0.0.1 - - 'GET' /_session 200
+
+[Fri, 22 Oct 2010 20:52:52 GMT] [info] [<0.95.0>] 127.0.0.1 - - 'GET' / 200
+
+[Fri, 22 Oct 2010 20:53:22 GMT] [info] [<0.32.0>] Apache CouchDB has started on http://127.0.0.1:5984/
+
+[Fri, 22 Oct 2010 20:53:23 GMT] [info] [<0.95.0>] 127.0.0.1 - - 'GET' /voxpop_dev 404
+
+[Fri, 22 Oct 2010 20:53:23 GMT] [info] [<0.98.0>] 127.0.0.1 - - 'PUT' /voxpop_dev 201
+
+[Fri, 22 Oct 2010 20:53:23 GMT] [info] [<0.101.0>] 127.0.0.1 - - 'GET' /voxpop_views 404
+
+[Fri, 22 Oct 2010 20:53:23 GMT] [info] [<0.117.0>] starting new replication "124e2bb4c55adcaf855b9c14ad981cca" at <0.121.0>
+
+[Fri, 22 Oct 2010 20:53:23 GMT] [info] [<0.121.0>] recording a checkpoint for voxpop_views -> voxpop_dev at source update_seq 56
+
+[Fri, 22 Oct 2010 20:53:23 GMT] [info] [<0.117.0>] 127.0.0.1 - - 'POST' /_replicate 200
+
+[Fri, 22 Oct 2010 20:53:23 GMT] [info] [<0.120.0>] 127.0.0.1 - - 'GET' /voxpop_geo 404
+
+[Fri, 22 Oct 2010 20:53:26 GMT] [info] [<0.136.0>] 127.0.0.1 - - 'GET' /_all_dbs 200
+
+[Fri, 22 Oct 2010 20:53:26 GMT] [info] [<0.141.0>] 127.0.0.1 - - 'GET' /_session 200
+
+[Fri, 22 Oct 2010 20:53:26 GMT] [info] [<0.142.0>] 127.0.0.1 - - 'GET' / 200
+
+[Fri, 22 Oct 2010 20:53:26 GMT] [info] [<0.136.0>] 127.0.0.1 - - 'GET' /_users/ 200
+
+[Fri, 22 Oct 2010 20:53:26 GMT] [info] [<0.141.0>] 127.0.0.1 - - 'GET' /voxpop_dev/ 200
+
+[Fri, 22 Oct 2010 20:53:26 GMT] [info] [<0.142.0>] 127.0.0.1 - - 'GET' /voxpop_geo/ 200
+
+[Fri, 22 Oct 2010 20:53:26 GMT] [info] [<0.136.0>] 127.0.0.1 - - 'GET' /voxpop_views/ 200
+
+[Fri, 22 Oct 2010 20:53:30 GMT] [info] [<0.143.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/names/_view/all 200
+
+[Fri, 22 Oct 2010 20:53:30 GMT] [info] [<0.143.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/universe/_view/top 200
+
+[Fri, 22 Oct 2010 20:54:04 GMT] [info] [<0.32.0>] Apache CouchDB has started on http://127.0.0.1:5984/
+
+[Fri, 22 Oct 2010 20:54:05 GMT] [info] [<0.95.0>] 127.0.0.1 - - 'GET' /voxpop_dev 200
+
+[Fri, 22 Oct 2010 20:54:05 GMT] [info] [<0.98.0>] 127.0.0.1 - - 'GET' /voxpop_geo 200
+
+[Fri, 22 Oct 2010 21:08:51 GMT] [info] [<0.105.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/names/_view/all 200
+
+[Fri, 22 Oct 2010 21:08:51 GMT] [info] [<0.105.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/universe/_view/top 200
+
+[Fri, 22 Oct 2010 21:49:12 GMT] [info] [<0.998.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/names/_view/all 200
+
+[Fri, 22 Oct 2010 21:49:12 GMT] [info] [<0.998.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/universe/_view/top 200
+
+[Fri, 22 Oct 2010 21:50:57 GMT] [info] [<0.3438.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/names/_view/all 200
+
+[Fri, 22 Oct 2010 21:50:58 GMT] [info] [<0.3438.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/universe/_view/top 200
+
+[Fri, 22 Oct 2010 21:54:13 GMT] [info] [<0.3545.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/names/_view/all 200
+
+[Fri, 22 Oct 2010 21:54:13 GMT] [info] [<0.3545.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/universe/_view/top 200
+
+[Fri, 22 Oct 2010 21:54:17 GMT] [info] [<0.3545.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/names/_view/all 200
+
+[Fri, 22 Oct 2010 21:54:17 GMT] [info] [<0.3545.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/universe/_view/top 200
+
+[Fri, 22 Oct 2010 21:54:29 GMT] [info] [<0.3545.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/names/_view/all 200
+
+[Fri, 22 Oct 2010 21:54:29 GMT] [info] [<0.3545.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/universe/_view/top 200
+
+[Fri, 22 Oct 2010 21:54:43 GMT] [info] [<0.3545.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/names/_view/all 200
+
+[Fri, 22 Oct 2010 21:54:44 GMT] [info] [<0.3545.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/universe/_view/top 200
+
+[Fri, 22 Oct 2010 21:55:15 GMT] [info] [<0.3741.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/names/_view/all 200
+
+[Fri, 22 Oct 2010 21:55:15 GMT] [info] [<0.3741.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/universe/_view/top 200
+
+[Fri, 22 Oct 2010 22:33:13 GMT] [info] [<0.3805.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/names/_view/all 200
+
+[Fri, 22 Oct 2010 22:33:13 GMT] [info] [<0.3805.0>] 127.0.0.1 - - 'GET' /voxpop_dev/_design/universe/_view/top 200
+

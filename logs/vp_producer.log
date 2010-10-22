@@ -1,0 +1,10 @@
+appending output to nohup.out
+2010-10-22 18:39:21,278 (vp_producer.py :  33)|CRITICAL| ---> VoxPop Producer started!
+Traceback (most recent call last):
+  File "vp_producer.py", line 49, in <module>
+    producer.start()
+  File "vp_producer.py", line 36, in start
+    logging.critical("---> DB: "+str(voxpop.VoxPopEnvironment.get_db()))
+  File "/Users/andrewmahon/voxpop/services/voxpop.py", line 29, in get_db
+    db = couch.Couch(Config.get('couchdb')['url'])
+NameError: global name 'Config' is not defined

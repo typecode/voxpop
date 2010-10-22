@@ -2,7 +2,7 @@ import logging, os, re, threading
 import simplejson as json
 import util as util
 import voxpop as vp
-from config import *
+from config.config import *
 from lib import web
 
 class Controller():

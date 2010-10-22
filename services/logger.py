@@ -12,8 +12,3 @@ ch = logging.StreamHandler()
 ch.setLevel(logging.WARNING) 
 ch.setFormatter(formatter) 
 app_logger.addHandler(ch)
-
-#fh = logging.handlers.RotatingFileHandler(LOG_FILENAME, maxBytes=500, backupCount=10)
-#fh.setLevel(logging.DEBUG)
-#fh.setFormatter(formatter)
-#app_logger.addHandler(fh)

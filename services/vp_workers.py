@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 import logging, threading, pickle, time, inspect, signal, exceptions
-import voxpop, config, vpNLP
+import voxpop, config
+import vp.vpNLP
 import itemManager, item
 from lib import couch
 from lib import yaml

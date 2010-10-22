@@ -41,8 +41,6 @@ def make_api_request(pars={}):
 		output['text'] = resp
 		return output
 	
-	
-	
 def fetch_request(url=None):
 	logging.info("$$$$ api.fetch_request["+url+"]")
 	if url is not None:

@@ -1,9 +1,9 @@
 import logging, os
 import voxpop
 from controllers.controller import *
-import nytTags
-import nytArticle
-import nytCommunity
+import nyt.nytTags
+import nyt.nytArticle
+import nyt.nytCommunity
 
 class Query(Controller):
 	

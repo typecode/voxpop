@@ -2,7 +2,7 @@ import logging, os, urllib, sys, hashlib, threading, math, decimal, datetime, ti
 #from lib import cluster as libcluster
 from lib.cluster import cluster as libcluster
 import simplejson as json
-from config import *
+from config.config import *
 from util import *
 from nltk import *
 import voxpop

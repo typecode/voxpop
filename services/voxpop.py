@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import logging, threading
-import voxpop, config, logger
+import voxpop, logger
+import config.config
 import itemManager, item
 from lib import couch
 import lib.memcache.memcache as memcache

@@ -1,0 +1,10 @@
+appending output to nohup.out
+2010-10-22 18:39:21,251 (vp_workers.py  : 125)|CRITICAL| ---> VoxPop Workers started!
+Traceback (most recent call last):
+  File "vp_workers.py", line 143, in <module>
+    workers = VoxPopWorkers()
+  File "vp_workers.py", line 126, in __init__
+    logging.critical("---> DB: "+str(voxpop.VoxPopEnvironment.get_db()))
+  File "/Users/andrewmahon/voxpop/services/voxpop.py", line 29, in get_db
+    db = couch.Couch(Config.get('couchdb')['url'])
+NameError: global name 'Config' is not defined

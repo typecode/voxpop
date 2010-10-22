@@ -1,10 +1,10 @@
 import logging, os, urllib, sys, hashlib, threading, operator
 import simplejson as json
-from config import *
+from config.config import *
 from util import *
 from nltk import *
 import voxpop
-import vpStats
+import vp.vpStats
 import itemManager, item
 from controllers.controller import *
 

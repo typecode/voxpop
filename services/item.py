@@ -2,11 +2,11 @@ import logging, os, urllib, sys, threading, cgi, math, hashlib, pickle, copy, in
 import simplejson as json
 import lib.couch
 from lib.restkit import *
-import voxpop
 from lib.couch import *
-from config import *
+from config.config import *
 from util import *
-import vpStats
+import voxpop
+import vp.vpNLP
 
 class Item():
 	
