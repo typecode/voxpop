@@ -20,7 +20,7 @@ class Couch:
         self.host = host
         self.port = port
         self.db_name = None
-        self.headers = {'Accept':'application/json', 'User-Agent': USER_AGENT}
+        self.headers = {'Accept':'application/json','User-Agent': USER_AGENT}
 
     def __call__(self):
         logging.info("!!!! Couch.__call__: not yet implemented")

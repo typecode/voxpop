@@ -1,11 +1,12 @@
 import logging, os, urllib, sys, hashlib, threading, operator
 import simplejson as json
 from config.config import *
-from util import *
+from lib.typecode.util import *
 from nltk import *
 import voxpop
-import vp.vpStats
-import itemManager, item
+import vp.vpStats as vpStats
+import vp.itemManager as itemManager
+import vp.item as item
 from controllers.controller import *
 
 class Map(Controller):
@@ -17,20 +18,20 @@ class Map(Controller):
 		
 	def get_geo_children(self,_id):
 		logging.error("#### Map.get_geo_children["+str(_id)+"]")
-		with voxpop.VoxPopEnvironment.memcache_lock:
-			_output = voxpop.VoxPopEnvironment.get_memcache().get('geoChildren_'+str(_id).encode('utf-8'))
+		with voxpop.VPE.memcache_lock:
+			_output = voxpop.VPE.get_memcache().get('geoChildren_'+str(_id).encode('utf-8'))
 		if not _output:
 			_ids = [_id]
 			if ',' in _id:
 				_ids = _id.split(',')
 			geo_locs = None
-			with voxpop.VoxPopEnvironment.memcache_lock:
-				geo_locs = voxpop.VoxPopEnvironment.get_memcache().get('_design/geo/_view/children/'+_ids[0].encode('utf-8'))
+			with voxpop.VPE.memcache_lock:
+				geo_locs = voxpop.VPE.get_memcache().get('_design/geo/_view/children/'+_ids[0].encode('utf-8'))
 			if not geo_locs:
-				with voxpop.VoxPopEnvironment.db_lock:
-					geo_locs = json.loads(voxpop.VoxPopEnvironment.get_db().open_document('_design/geo/_view/children',key='"'+_ids[0]+'"'))['rows']
-				with voxpop.VoxPopEnvironment.memcache_lock:
-					voxpop.VoxPopEnvironment.get_memcache().set('_design/geo/_view/children/'+_ids[0].encode('utf-8'), geo_locs, 600)
+				with voxpop.VPE.db_lock:
+					geo_locs = json.loads(voxpop.VPE.get_db().open_document('_design/geo/_view/children',key='"'+_ids[0]+'"'))['rows']
+				with voxpop.VPE.memcache_lock:
+					voxpop.VPE.get_memcache().set('_design/geo/_view/children/'+_ids[0].encode('utf-8'), geo_locs, 600)
 			_aggregateSentiment = {}
 			_aggregateSentiment['n_positive'] = 0
 			_aggregateSentiment['n_negative'] = 0
@@ -75,6 +76,6 @@ class Map(Controller):
 					_relatedFacets.pop(i)
 			
 			_output = {'comments':_myGeos, 'n_comments':_child_count, 'related':_relatedFacets.keys()[:10], 'aggregateSentiment': _aggregateSentiment}
-			with voxpop.VoxPopEnvironment.memcache_lock:
-				voxpop.VoxPopEnvironment.get_memcache().set('geoChildren_'+str(_id).encode('utf-8'), _output, 300)
+			with voxpop.VPE.memcache_lock:
+				voxpop.VPE.get_memcache().set('geoChildren_'+str(_id).encode('utf-8'), _output, 300)
 		return self.json(_output)

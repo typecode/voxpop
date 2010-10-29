@@ -1,19 +1,20 @@
 #!/usr/bin/env python
 import logging, os, urllib, sys, threading, cgi, inspect, re, csv
 import voxpop
-import itemManager, item
+import itemManager as itemManager
+import item as item
 import simplejson as json
 from lib import couch
 import nltk
 from nltk import *
 from config.config import *
-from util import *
+from lib.typecode.util import *
 
 lasswell_dictionary = {}
 
 class LasswellParser():
 	
-	def __init__(self,lvd_csv='inquireraugmented_osgood.csv'):
+	def __init__(self,lvd_csv='assets/inquireraugmented_osgood.csv'):
 		logging.info("#### LasswellParser.__init__[]")
 		if len(lasswell_dictionary) == 0:
 			logging.error("#### LasswellParser.__init__: DICTIONARY EMPTY")

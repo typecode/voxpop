@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import logging, os, urllib, sys, threading, cgi, inspect, re, csv, copy, types
 import voxpop
-import item
-import itemManager
+
+import itemManager as itemManager
+import item as item
 import simplejson as json
 from nltk import *
 from config.config import *
@@ -11,7 +12,7 @@ def get_stats_for_items(items):
 	logging.info("#### vpStats --> get_stats_for_items[]")
 	_myStats = {}
 	for i in items:
-		_item = voxpop.VoxPopEnvironment.get_items().get(_id=i).doc
+		_item = voxpop.VPE.get_items().get(_id=i).doc
 		if 'stats' in _item:
 			if 'counts' in _item['stats']:
 				if 'counts' not in _myStats:
@@ -129,7 +130,7 @@ class vpStats():
 		else:
 			for i in self.item.children:
 				_i  = _i + 1
-				_myItem = voxpop.VoxPopEnvironment.get_items()[i]
+				_myItem = voxpop.VPE.get_items()[i]
 				if _myItem is not None:
 					_myMyStats = _myItem.stats.get()
 					if _myMyStats is None:

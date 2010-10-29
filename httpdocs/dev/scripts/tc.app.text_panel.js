@@ -11,7 +11,8 @@ tc.text_panel = function(app){
       <a href='#' class='button' id='text-submit-button'>Submit</a>\
     </form>\
     <div class='clear'></div>\
-      <p></p>\
+      <p class='lasswell'></p>\
+      <p class='bayes'></p>\
     <div class='clear'></div>\
   </div>";
  
@@ -46,14 +47,17 @@ tc.text_panel = function(app){
           success:function(transactionId, response, arguments){
             var json;
             try{
-              _domRef.one('textarea')._node.value = "";
+              //_domRef.one('textarea')._node.value = "";
               
               json = app.Y.JSON.parse(response.responseText);
-              _domRef.one('p').insert(app.Y.JSON.stringify(json.input,null,'&nbsp;'));
+              _domRef.one('p.lasswell').insert(app.Y.JSON.stringify(json.input,null,'&nbsp;'));
               tc.voxpop.word_highlighter(
-                _domRef.one('p'),
+                _domRef.one('p.lasswell'),
                 json.output.lasswell_words
               );
+              console.log(_domRef.one('p.bayes'))
+              _domRef.one('p.bayes')._node
+                .innerHTML.replace('Bayes Classification: '+json.bayesclass);
             }catch(error){
               console.log(error);
             }

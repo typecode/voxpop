@@ -2,8 +2,9 @@
 
 import logging, threading, pickle, time, inspect, signal, exceptions
 import voxpop, config
-import vp.vpNLP
-import itemManager, item
+import vp.vpNLP as vpNLP
+import vp.itemManager as itemManager
+import vp.item as item
 from lib import couch
 from lib import yaml
 import lib.memcache.memcache as memcache
@@ -123,12 +124,13 @@ class VoxPopWorkers():
 	def __init__(self):
 		logging.info("#### VoxPopWorkers.__init__")
 		logging.critical("---> VoxPop Workers started!")
-		logging.critical("---> DB: "+str(voxpop.VoxPopEnvironment.get_db()))
-		logging.critical("---> GeoDB: "+str(voxpop.VoxPopEnvironment.get_geodb()))
-		logging.critical("---> CouchDB Connected to DB: " + voxpop.VoxPopEnvironment.get_db().connected_to())
-		logging.critical("---> Memcache: "+str(voxpop.VoxPopEnvironment.get_memcache()))
-		logging.critical("---> ITEMS: "+str(voxpop.VoxPopEnvironment.get_items(persist=True,cache_worker=self.cache_worker)))
-		lasswell = vpNLP.LasswellParser()
+		logging.critical("---> DB: "+str(voxpop.VPE.get_db()))
+		logging.critical("---> GeoDB: "+str(voxpop.VPE.get_geodb()))
+		logging.critical("---> CouchDB Connected to DB: " + voxpop.VPE.get_db().connected_to())
+		logging.critical("---> Memcache: "+str(voxpop.VPE.get_memcache()))
+		logging.critical("---> ITEMS: "+str(voxpop.VPE.get_items(persist=True,cache_worker=self.cache_worker)))
+		#logging.critical("---> Classifier: "+str(voxpop.VPE.get_classifier()))
+		vpNLP.LasswellParser()
 		
 	def add_worker(self,**kwargs):
 		w = VoxPopWorker(kwargs)

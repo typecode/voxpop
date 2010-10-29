@@ -16,14 +16,14 @@ class Main(Controller):
 		
 	def get_name_lookup(self):
 		logging.info("##### VoxPop.get_name_lookup")
-		with voxpop.VoxPopEnvironment.memcache_lock:
-			_myNames = voxpop.VoxPopEnvironment.get_memcache().get('_design/names/_view/all'.encode('utf-8'))
+		with voxpop.VPE.memcache_lock:
+			_myNames = voxpop.VPE.get_memcache().get('_design/names/_view/all'.encode('utf-8'))
 		if not _myNames:
-			with voxpop.VoxPopEnvironment.db_lock:
-				names = json.loads(voxpop.VoxPopEnvironment.get_db().open_document('_design/names/_view/all'))['rows']
+			with voxpop.VPE.db_lock:
+				names = json.loads(voxpop.VPE.get_db().open_document('_design/names/_view/all'))['rows']
 				_myNames = {}
 				for i in names:
 					_myNames[i['key']] = i['value']
-			with voxpop.VoxPopEnvironment.memcache_lock:
-					voxpop.VoxPopEnvironment.get_memcache().set('_design/names/_view/all'.encode('utf-8'), _myNames, 600)
+			with voxpop.VPE.memcache_lock:
+					voxpop.VPE.get_memcache().set('_design/names/_view/all'.encode('utf-8'), _myNames, 600)
 		return self.json({'names':_myNames})

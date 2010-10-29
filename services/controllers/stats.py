@@ -16,14 +16,14 @@ class Stats(Controller):
 				
 	def run_stats_on_all_caches_workers(self):
 		logging.critical("##### Stats.run_stats_on_all_caches_workers")
-		with voxpop.VoxPopEnvironment.db_lock:
-			list = json.loads(voxpop.VoxPopEnvironment.get_db().open_document('_design/caches/_view/list',group='true'))['rows']
+		with voxpop.VPE.db_lock:
+			list = json.loads(voxpop.VPE.get_db().open_document('_design/caches/_view/list',group='true'))['rows']
 		if list is not None:
 			for i in list:
 				request = {}
 				request['item_id'] = i[u'key']
 				request['functions'] = [vpStats.run_stats_on_item]
 				#logging.critical('BSM[STATS] Size:'+str(sys.getsizeof(pickle.dumps(request))))
-				with voxpop.VoxPopEnvironment.beanstalkd_lock:
-					voxpop.VoxPopEnvironment.get_beanstalkd().use("stats")
-					voxpop.VoxPopEnvironment.get_beanstalkd().put(pickle.dumps(request), pri=100000)
+				with voxpop.VPE.beanstalkd_lock:
+					voxpop.VPE.get_beanstalkd().use("stats")
+					voxpop.VPE.get_beanstalkd().put(pickle.dumps(request), pri=100000)

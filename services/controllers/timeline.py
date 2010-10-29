@@ -3,10 +3,11 @@ import logging, os, urllib, sys, hashlib, threading, math, decimal, datetime, ti
 from lib.cluster import cluster as libcluster
 import simplejson as json
 from config.config import *
-from util import *
+from lib.typecode.util import *
 from nltk import *
 import voxpop
-import itemManager, item
+import vp.itemManager as itemManager
+import vp.item as item
 from controllers.controller import *
 
 class Timeline(Controller):
@@ -20,20 +21,20 @@ class Timeline(Controller):
 	
 	def get_binned_children(self,_id):
 		logging.info("#### Timeline.get_binned_children["+_id+"]")
-		with voxpop.VoxPopEnvironment.memcache_lock:
-			_output = voxpop.VoxPopEnvironment.get_memcache().get('timelineChildren_'+str(_id).encode('utf-8'))
+		with voxpop.VPE.memcache_lock:
+			_output = voxpop.VPE.get_memcache().get('timelineChildren_'+str(_id).encode('utf-8'))
 		if not _output:
 			_ids = [_id]
 			if ',' in _id:
 				_ids = _id.split(',')
 			children = None
-			with voxpop.VoxPopEnvironment.memcache_lock:
-				children = voxpop.VoxPopEnvironment.get_memcache().get('_design/timeline/_view/children/'+_ids[0].encode('utf-8'))
+			with voxpop.VPE.memcache_lock:
+				children = voxpop.VPE.get_memcache().get('_design/timeline/_view/children/'+_ids[0].encode('utf-8'))
 			if not children:
-				with voxpop.VoxPopEnvironment.db_lock:
-					children = json.loads(voxpop.VoxPopEnvironment.get_db().open_document('_design/timeline/_view/children',key='"'+_ids[0]+'"'))['rows']
-				with voxpop.VoxPopEnvironment.memcache_lock:
-					voxpop.VoxPopEnvironment.get_memcache().set('_design/timeline/_view/children/'+_ids[0].encode('utf-8'), children, 600)
+				with voxpop.VPE.db_lock:
+					children = json.loads(voxpop.VPE.get_db().open_document('_design/timeline/_view/children',key='"'+_ids[0]+'"'))['rows']
+				with voxpop.VPE.memcache_lock:
+					voxpop.VPE.get_memcache().set('_design/timeline/_view/children/'+_ids[0].encode('utf-8'), children, 600)
 					
 			logging.error("#### Timeline.get_binned_children.fetching_children["+_ids[0]+"].n_results:"+str(len(children)))
 			
@@ -155,26 +156,26 @@ class Timeline(Controller):
 			else:
 				_output['points'] = _myChildrenList
 			
-			with voxpop.VoxPopEnvironment.memcache_lock:
-				voxpop.VoxPopEnvironment.get_memcache().set('timelineChildren_'+str(_id).encode('utf-8'), _output, 300)
+			with voxpop.VPE.memcache_lock:
+				voxpop.VPE.get_memcache().set('timelineChildren_'+str(_id).encode('utf-8'), _output, 300)
 		return self.json(_output)
 	
 	def get_children(self,_id):
 		logging.info("#### Timeline.get_children["+_id+"]")
-		with voxpop.VoxPopEnvironment.memcache_lock:
-			_output = voxpop.VoxPopEnvironment.get_memcache().get('timelineChildren_'+str(_id).encode('utf-8'))
+		with voxpop.VPE.memcache_lock:
+			_output = voxpop.VPE.get_memcache().get('timelineChildren_'+str(_id).encode('utf-8'))
 		if not _output:
 			_ids = [_id]
 			if ',' in _id:
 				_ids = _id.split(',')
 			children = None
-			with voxpop.VoxPopEnvironment.memcache_lock:
-				children = voxpop.VoxPopEnvironment.get_memcache().get('_design/timeline/_view/children/'+_ids[0].encode('utf-8'))
+			with voxpop.VPE.memcache_lock:
+				children = voxpop.VPE.get_memcache().get('_design/timeline/_view/children/'+_ids[0].encode('utf-8'))
 			if not children:
-				with voxpop.VoxPopEnvironment.db_lock:
-					children = json.loads(voxpop.VoxPopEnvironment.get_db().open_document('_design/timeline/_view/children',key='"'+_ids[0]+'"'))['rows']
-				with voxpop.VoxPopEnvironment.memcache_lock:
-					voxpop.VoxPopEnvironment.get_memcache().set('_design/timeline/_view/children/'+_ids[0].encode('utf-8'), children, 600)
+				with voxpop.VPE.db_lock:
+					children = json.loads(voxpop.VPE.get_db().open_document('_design/timeline/_view/children',key='"'+_ids[0]+'"'))['rows']
+				with voxpop.VPE.memcache_lock:
+					voxpop.VPE.get_memcache().set('_design/timeline/_view/children/'+_ids[0].encode('utf-8'), children, 600)
 					
 			logging.error("#### Timeline.get_children.fetching_children["+_ids[0]+"].n_results:"+str(len(children)))
 			
@@ -240,6 +241,6 @@ class Timeline(Controller):
 			else:
 				_output['points'] = _myChildrenList
 			
-			with voxpop.VoxPopEnvironment.memcache_lock:
-				voxpop.VoxPopEnvironment.get_memcache().set('timelineChildren_'+str(_id).encode('utf-8'), _output, 300)
+			with voxpop.VPE.memcache_lock:
+				voxpop.VPE.get_memcache().set('timelineChildren_'+str(_id).encode('utf-8'), _output, 300)
 		return self.json(_output)

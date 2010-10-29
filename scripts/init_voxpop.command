@@ -52,6 +52,8 @@ else
 	echo 'voxpop_dev found, doing nothing'
 fi
 
+
+
 echo ''
 echo '========GEO DATABASE MAINTENANCE==============='
 echo 'Checking for voxpop_geo'

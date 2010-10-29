@@ -1,10 +1,11 @@
 import logging, os, urllib, sys, hashlib, threading, operator
 import simplejson as json
 from config.config import *
-from util import *
+from lib.typecode.util import *
 from nltk import *
 import voxpop
-import itemManager, item
+import vp.itemManager as itemManager
+import vp.item as item
 from controllers.controller import *
 
 class Universe(Controller):
@@ -17,13 +18,13 @@ class Universe(Controller):
 	def get_top_conversations(self):
 		logging.error("#### Universe.get_top_conversations[]")
 		topics = None
-		with voxpop.VoxPopEnvironment.memcache_lock:
-			topics = voxpop.VoxPopEnvironment.get_memcache().get('_design/universe/_view/top'.encode('utf-8'))
+		with voxpop.VPE.memcache_lock:
+			topics = voxpop.VPE.get_memcache().get('_design/universe/_view/top'.encode('utf-8'))
 		if not topics:
-			with voxpop.VoxPopEnvironment.db_lock:
-				topics = json.loads(voxpop.VoxPopEnvironment.get_db().open_document('_design/universe/_view/top'))['rows']
+			with voxpop.VPE.db_lock:
+				topics = json.loads(voxpop.VPE.get_db().open_document('_design/universe/_view/top'))['rows']
 			topics.reverse()
 			topics = topics[:15]
-			with voxpop.VoxPopEnvironment.memcache_lock:
-					voxpop.VoxPopEnvironment.get_memcache().set('_design/universe/_view/top'.encode('utf-8'), topics, 500)
+			with voxpop.VPE.memcache_lock:
+					voxpop.VPE.get_memcache().set('_design/universe/_view/top'.encode('utf-8'), topics, 500)
 		return self.json(topics)

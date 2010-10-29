@@ -2,7 +2,7 @@
 import logging, os, urllib, sys, threading, cgi, inspect, re, csv
 import voxpop
 from lib.couch import *
-import api
+import api as api
 import simplejson as json
 from config.config import *
 
@@ -12,7 +12,6 @@ n_geocoded = 0
 
 class geocoder():
 	
-	
 	def __init__(self):
 		logging.info("#### gMapsGeocoder.__init__[]")
 		
@@ -21,7 +20,7 @@ class geocoder():
 		_geo = self.getLocalGeocode(locationString)
 		if _geo is False:
 			return False
-		geo_loc = voxpop.VoxPopEnvironment.get_items().get(_id="geo_loc_"+_geo['name'].replace(' ','').replace(',',''))
+		geo_loc = voxpop.VPE.get_items().get(_id="geo_loc_"+_geo['name'].replace(' ','').replace(',',''))
 		if 'kind' in geo_loc.doc:
 			return geo_loc
 		geo_loc.init_stats = True
@@ -36,7 +35,7 @@ class geocoder():
 		if _geo is False:
 			return False
 		self.setLocalGeocode(locationString,_geo)
-		geo_loc = voxpop.VoxPopEnvironment.get_items().get(_id="geo_loc_"+_geo['name'].replace(' ','').replace(',',''))
+		geo_loc = voxpop.VPE.get_items().get(_id="geo_loc_"+_geo['name'].replace(' ','').replace(',',''))
 		if 'kind' in geo_loc.doc:
 			return geo_loc
 		geo_loc.init_stats = True
@@ -48,8 +47,8 @@ class geocoder():
 	def getLocalGeocode(self,locationString):
 		logging.info("#### gMapsGeocoder.getLocalGeocode["+locationString+"]")
 		try:
-			with voxpop.VoxPopEnvironment.db_lock:
-				_geo = json.loads(voxpop.VoxPopEnvironment.get_geodb().open_document(locationString))
+			with voxpop.VPE.db_lock:
+				_geo = json.loads(voxpop.VPE.get_geodb().open_document(locationString))
 		except TypeError, ResourceNotFound:
 			return False
 		if _geo is None:
@@ -62,8 +61,8 @@ class geocoder():
 		_myGeo['locationstring'] = locationString
 		_myGeo['geocode'] = _geo
 		try:
-			with voxpop.VoxPopEnvironment.db_lock:
-				voxpop.VoxPopEnvironment.get_geodb().save_document(_myGeo,locationString)
+			with voxpop.VPE.db_lock:
+				voxpop.VPE.get_geodb().save_document(_myGeo,locationString)
 		except CouchConflict:
 			return True
 		

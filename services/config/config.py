@@ -8,7 +8,7 @@ class Config():
 
 	@classmethod
 	def load(cls):
-		config_url = 'config.yaml'
+		config_url = 'config/config.yaml'
 		stream = file(config_url, 'r')
 	 	mode = 'dev'
 		cls.data = yaml.load(stream)

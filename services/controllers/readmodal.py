@@ -1,11 +1,12 @@
 import logging, os, urllib, sys, hashlib, threading, operator
 import simplejson as json
 from config.config import *
-from util import *
+from lib.typecode.util import *
 from nltk import *
 import voxpop
 import vp.vpStats
-import itemManager, item
+import vp.itemManager as itemManager
+import vp.item as item
 from controllers.controller import *
 
 class Readmodal(Controller):
@@ -19,15 +20,15 @@ class Readmodal(Controller):
 		
 	def get_rm_children(self,_id):
 		logging.error("#### Readmodal.get_rm_children["+repr(_id)+"]")
-		with voxpop.VoxPopEnvironment.memcache_lock:
-			_output = voxpop.VoxPopEnvironment.get_memcache().get('readmodalChildren_'+_id.encode('utf-8'))
+		with voxpop.VPE.memcache_lock:
+			_output = voxpop.VPE.get_memcache().get('readmodalChildren_'+_id.encode('utf-8'))
 		if not _output:
 			_ids = [_id]
 			if ',' in _id:
 				_ids = _id.split(',')
 			comments = None
-			with voxpop.VoxPopEnvironment.db_lock:
-				comments = json.loads(voxpop.VoxPopEnvironment.get_db().open_document('_design/readmodal/_view/children',key='"'+_ids[len(_ids)-1]+'"'))['rows']
+			with voxpop.VPE.db_lock:
+				comments = json.loads(voxpop.VPE.get_db().open_document('_design/readmodal/_view/children',key='"'+_ids[len(_ids)-1]+'"'))['rows']
 			articles = []
 			_myComments = []
 			_aggregateSentiment = {}
@@ -53,22 +54,22 @@ class Readmodal(Controller):
 				_myComments.append(i)
 			_myArticles = {}
 			for i in articles:
-				with voxpop.VoxPopEnvironment.db_lock:
-					article = json.loads(voxpop.VoxPopEnvironment.get_db().open_document(i))
+				with voxpop.VPE.db_lock:
+					article = json.loads(voxpop.VPE.get_db().open_document(i))
 				_myArticles[i] = article
 			if (float(_aggregateSentiment['n_positive']) + float(_aggregateSentiment['n_negative'])) > 0:
 				_aggregateSentiment['ratio'] = float(_aggregateSentiment['n_positive']) / (float(_aggregateSentiment['n_positive']) + float(_aggregateSentiment['n_negative']))
 			else:
 				_aggregateSentiment['ratio'] = 0.5
 			_output = {'comments':_myComments,'articles':_myArticles, 'aggregateSentiment': _aggregateSentiment}
-			with voxpop.VoxPopEnvironment.memcache_lock:
-					voxpop.VoxPopEnvironment.get_memcache().set('readmodalChildren_'+_id.encode('utf-8'), _output, 600)
+			with voxpop.VPE.memcache_lock:
+					voxpop.VPE.get_memcache().set('readmodalChildren_'+_id.encode('utf-8'), _output, 600)
 		return self.json(_output)
 		
 	def get_rm_children_by_ids(self,qid):
 		logging.error("#### Readmodal.get_rm_children_by_ids["+str(qid)+"]")
-		with voxpop.VoxPopEnvironment.memcache_lock:
-			_output = voxpop.VoxPopEnvironment.get_memcache().get('readmodalChildrenById_'+str(qid).encode('utf-8'))
+		with voxpop.VPE.memcache_lock:
+			_output = voxpop.VPE.get_memcache().get('readmodalChildrenById_'+str(qid).encode('utf-8'))
 		if not _output:
 			_ids = [web.input()['ids']]
 			if ',' in web.input()['ids']:
@@ -80,7 +81,7 @@ class Readmodal(Controller):
 			_aggregateSentiment['n_negative'] = 0
 			_aggregateSentiment['ratio'] = 0.5
 			for i in _ids:
-				_myComment = json.loads(voxpop.VoxPopEnvironment.get_db().open_document(i))
+				_myComment = json.loads(voxpop.VPE.get_db().open_document(i))
 				if u'caches' in _myComment:
 					_myReducedComment = {}
 					for j in _myComment[u'caches']:
@@ -104,8 +105,8 @@ class Readmodal(Controller):
 					_myComments.append(_myReducedComment)
 			_myArticles = {}
 			for i in _myArticleIds:
-				with voxpop.VoxPopEnvironment.db_lock:
-					article = json.loads(voxpop.VoxPopEnvironment.get_db().open_document(i))
+				with voxpop.VPE.db_lock:
+					article = json.loads(voxpop.VPE.get_db().open_document(i))
 				_myArticles[i] = article
 				
 			if (float(_aggregateSentiment['n_positive']) + float(_aggregateSentiment['n_negative'])) > 0:
@@ -113,21 +114,21 @@ class Readmodal(Controller):
 			else:
 				_aggregateSentiment['ratio'] = 0.5
 			_output = {'comments':_myComments,'articles':_myArticles, 'aggregateSentiment': _aggregateSentiment}
-			with voxpop.VoxPopEnvironment.memcache_lock:
-					voxpop.VoxPopEnvironment.get_memcache().set('readmodalChildrenById_'+str(qid).encode('utf-8'), _output, 600)
+			with voxpop.VPE.memcache_lock:
+					voxpop.VPE.get_memcache().set('readmodalChildrenById_'+str(qid).encode('utf-8'), _output, 600)
 		return self.json(_output)
 				
 		
 		def get_rm_children_by_article_id(self,aid):
 			logging.error("#### Readmodal.get_rm_children_by_article_id["+str(aid)+"]")
-			with voxpop.VoxPopEnvironment.memcache_lock:
-				_output = voxpop.VoxPopEnvironment.get_memcache().get('readmodalChildrenByArticleId_'+str(aid).encode('utf-8'))
+			with voxpop.VPE.memcache_lock:
+				_output = voxpop.VPE.get_memcache().get('readmodalChildrenByArticleId_'+str(aid).encode('utf-8'))
 			if not _output:
-				article = voxpop.VoxPopEnvironment.get_items().get(_id=aid)
+				article = voxpop.VPE.get_items().get(_id=aid)
 				for i in article.children:
 					logging.error(i)
 				_output = {}
-				with voxpop.VoxPopEnvironment.memcache_lock:
+				with voxpop.VPE.memcache_lock:
 					pass
-					#voxpop.VoxPopEnvironment.get_memcache().set('readmodalChildrenById_'+str(qid).encode('utf-8'), _output, 600)
+					#voxpop.VPE.get_memcache().set('readmodalChildrenById_'+str(qid).encode('utf-8'), _output, 600)
 			return self.json(_output)

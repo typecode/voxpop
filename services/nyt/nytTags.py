@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import os, logging, threading, pickle, time, sys
-import itemManager, item
+import vp.itemManager as itemManager
+import vp.item as item
 import voxpop
-import api
-import nytCommunity
-from api import *
+import nyt.nytCommunity as nytCommunity
+import vp.api as api
 from lib import httplib2
 from lib import web
 from lib import couch
@@ -18,9 +18,9 @@ def fetch_tags_for_query(query=None,**kwargs):
 		return {'error':'No query provided!'}
 		
 	if 'cache_id' in kwargs:
-		query = voxpop.VoxPopEnvironment.get_items()[kwargs['query_id']]
+		query = voxpop.VPE.get_items()[kwargs['query_id']]
 	else:
-		query = voxpop.VoxPopEnvironment.get_items().get(pars={'kind':'tagQuery', 'name':query})
+		query = voxpop.VPE.get_items().get(pars={'kind':'tagQuery', 'name':query})
 		
 	prior_cached = len(query.children)
 	
@@ -38,9 +38,9 @@ def fetch_tags_for_query(query=None,**kwargs):
 	request = {}
 	for k,v in req_pars.iteritems():
 		request[k] = v
-	with voxpop.VoxPopEnvironment.beanstalkd_lock:
-		voxpop.VoxPopEnvironment.get_beanstalkd().use("nyttags")
-		voxpop.VoxPopEnvironment.get_beanstalkd().put(pickle.dumps(request), pri=100000)
+	with voxpop.VPE.beanstalkd_lock:
+		voxpop.VPE.get_beanstalkd().use("nyttags")
+		voxpop.VPE.get_beanstalkd().put(pickle.dumps(request), pri=100000)
 	return cache
 	
 def cache_response(message={}):
@@ -51,10 +51,10 @@ def cache_response(message={}):
 		logging.error("$$$$ nytTags.cache_response: No Results To Cache")
 		return False
 	logging.info("$$$$ nytTags.cache_response[]")
-	query = voxpop.VoxPopEnvironment.get_items()[message['cache_id']]
+	query = voxpop.VPE.get_items()[message['cache_id']]
 	for i in message['json'][u'results']:
 		tag_id = "timesTag_"+str(i).replace(' ','')
-		tag = voxpop.VoxPopEnvironment.get_items()[tag_id]
+		tag = voxpop.VPE.get_items()[tag_id]
 		query.add_child(item_id)
 		tag.add_to_cache(query._id)
 		tag.update_doc({'kind':'timesTag', 'text':i})

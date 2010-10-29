@@ -1,25 +1,22 @@
 <VirtualHost *:8000>
-        ServerAdmin amahon@gmail.com
+	ServerAdmin andrew@typeslashcode.com
 
-        DocumentRoot /var/www/collectd
+	DocumentRoot /var/www/collectd
 
-        <Directory />
-                Options FollowSymLinks
-                AllowOverride None
-        </Directory>
-        <Directory /var/www/collectd>
-                Options Indexes FollowSymLinks MultiViews
-                AllowOverride All
-                Order allow,deny
-                allow from all
-        </Directory>
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/collectd>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
 
-        ErrorLog /var/log/apache2/error.log
-
-        # Possible values include: debug, info, notice, warn, error, crit,
-        # alert, emerg.
-        LogLevel warn
-
-        CustomLog /var/log/apache2/access.log combined
-
+	ErrorLog /var/log/apache2/error.log
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+	CustomLog /var/log/apache2/access.log combined
 </VirtualHost>

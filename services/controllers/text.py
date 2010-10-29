@@ -1,7 +1,8 @@
 import logging, os
 import voxpop
 from controllers.controller import *
-import vp.vpNLP
+from vp import vpNLP
+from vp.vpClassifier import vpClassifier
 
 class Text(Controller):
 	
@@ -18,5 +19,12 @@ class Text(Controller):
 			return self.json({'message':'No Text Provided To Process.'})
 		
 		_nlp = vpNLP.LasswellParser().parse_paragraph(data['text'])
-		output = {'input':data['text'], 'output':_nlp}
+		_class = voxpop.VPE.get_classifier().classify(data['text'])
+		
+		output = {
+			'input':data['text'],
+			'output':_nlp,
+			'bayesclass':_class
+		}
+		
 		return self.json(output)

@@ -1,0 +1,35 @@
+/* Hide overlay markup while loading, if js is enabled */
+.yui3-js-enabled .yui3-overlay-loading {
+    top:-1000em;
+    left:-1000em;
+    position:absolute;
+}
+ 
+/* Overlay Look/Feel */
+.yui3-overlay-content {
+    padding:3px;
+    border:1px solid #000;
+    background-color:#aaa;
+}
+ 
+.yui3-overlay-content .yui3-widget-hd {
+    padding:5px;
+    border:2px solid #aa0000;
+    background-color:#fff;
+    overflow:hidden;
+}
+.yui3-widget-hd p { float:left; }
+.yui3-widget-hd a.close { float:right; }
+
+ 
+.yui3-overlay-content .yui3-widget-bd {
+    padding:5px;
+    border:2px solid #0000aa;
+    background-color:#fff;
+}
+ 
+.yui3-overlay-content .yui3-widget-ft {
+    padding:5px;
+    border:2px solid #00aa00;
+    background-color:#fff;
+}

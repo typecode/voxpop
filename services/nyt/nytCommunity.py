@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-import os, logging, threading, pickle, time, hashlib, math, sys
+import os, logging, threading, pickle, time, hashlib, math, sys, urllib
 import voxpop
 from config.config import Config
-import api
-import itemManager, item
-import vp.vpNLP
-import vp.vpGeo
-from api import *
+import vp.itemManager as itemManager
+import vp.item as item
+import vp.vpNLP as vpNLP
+import vp.vpGeo as vpGeo
+import vp.api as api
 from lib import httplib2
 from lib import web
 from lib import couch
@@ -31,9 +31,9 @@ def fetch_comments_for_article_id(pars={},**kwargs):
 				'functions': [api.make_api_request,fetch_remainder]
 				}
 	#logging.critical('BSM[fetch_comments_for_article_id] Size:'+str(sys.getsizeof(pickle.dumps(request))))
-	with voxpop.VoxPopEnvironment.beanstalkd_lock:
-		voxpop.VoxPopEnvironment.get_beanstalkd().use("nytcommunity")
-		voxpop.VoxPopEnvironment.get_beanstalkd().put(pickle.dumps(request),pri=100000)
+	with voxpop.VPE.beanstalkd_lock:
+		voxpop.VPE.get_beanstalkd().use("nytcommunity")
+		voxpop.VPE.get_beanstalkd().put(pickle.dumps(request),pri=100000)
 	return True
 	
 def fetch_remainder(message={}):
@@ -57,7 +57,7 @@ def fetch_remainder(message={}):
 		return False
 	
 	logging.critical("$$$$ nytCommunity.fetch_remainder["+message['article_id'].encode('utf-8')+"]")
-	article = voxpop.VoxPopEnvironment.get_items().get(_id=message['article_id'])
+	article = voxpop.VPE.get_items().get(_id=message['article_id'])
 	if article is None:
 		logging.error("$$$$ nytCommunity.fetch_remainder:ERROR Article Not Found")
 		return False
@@ -88,9 +88,9 @@ def fetch_remainder(message={}):
 		_url = _url + '&api-key='+Config.get('nyt_community')['key']
 		request['url'] = _url
 		#logging.critical('BSM[fetch_remainder] Size:'+str(sys.getsizeof(pickle.dumps(request))))
-		with voxpop.VoxPopEnvironment.beanstalkd_lock:
-			voxpop.VoxPopEnvironment.get_beanstalkd().use("nytcommunity")
-			voxpop.VoxPopEnvironment.get_beanstalkd().put(pickle.dumps(request), pri=100000)
+		with voxpop.VPE.beanstalkd_lock:
+			voxpop.VPE.get_beanstalkd().use("nytcommunity")
+			voxpop.VPE.get_beanstalkd().put(pickle.dumps(request), pri=100000)
 	return message
 	
 def cache_response(message={}):
@@ -98,7 +98,7 @@ def cache_response(message={}):
 	if 'article_id' not in message:
 		logging.error("**** nytCommunity.cache_response: NO ARTICLE_ID PROVIDED")
 		return False
-	article = voxpop.VoxPopEnvironment.get_items().get(_id=message['article_id'])
+	article = voxpop.VPE.get_items().get(_id=message['article_id'])
 	if article is None:
 		logging.error("$$$$ nytCommunity.cache_response:ERROR Article Not Found")
 		return False
@@ -108,7 +108,7 @@ def cache_response(message={}):
 		if len(message['json'][u'results'][u'comments']) > 0:
 			for i in message['json'][u'results'][u'comments']:
 				comment_id = 'comment_%(urlhash)s_%(seq)05d' % {'urlhash':hashlib.md5(message['article_url'].encode('utf-8')).hexdigest(), 'seq':i[u'commentSequence']}
-				comment = voxpop.VoxPopEnvironment.get_items().get(_id=comment_id)
+				comment = voxpop.VPE.get_items().get(_id=comment_id)
 				comment.doc['kind'] = 'comment'
 				comment.add_to_cache(article._id)
 				if 'caches' in article.doc:
@@ -119,11 +119,11 @@ def cache_response(message={}):
 				article.add_child(comment_id)
 				#logging.critical('BSM[cache_response.nlp] Size:'+str(sys.getsizeof(pickle.dumps({'comment_id':comment_id, 'functions':[process_comment]}))))
 				#logging.critical('BSM[cache_response.geocodelocal] Size:'+str(sys.getsizeof(pickle.dumps({'comment_id':comment_id, 'functions':[geolocate_comment_local]}))))
-				with voxpop.VoxPopEnvironment.beanstalkd_lock:
-					voxpop.VoxPopEnvironment.get_beanstalkd().use("nlp")
-					voxpop.VoxPopEnvironment.get_beanstalkd().put(pickle.dumps({'comment_id':comment_id, 'functions':[process_comment]}), pri=100000, delay=5)
-					voxpop.VoxPopEnvironment.get_beanstalkd().use("geocodelocal")
-					voxpop.VoxPopEnvironment.get_beanstalkd().put(pickle.dumps({'comment_id':comment_id, 'functions':[geolocate_comment_local]}), pri=100000, delay=5)
+				with voxpop.VPE.beanstalkd_lock:
+					voxpop.VPE.get_beanstalkd().use("nlp")
+					voxpop.VPE.get_beanstalkd().put(pickle.dumps({'comment_id':comment_id, 'functions':[process_comment]}), pri=100000, delay=5)
+					voxpop.VPE.get_beanstalkd().use("geocodelocal")
+					voxpop.VPE.get_beanstalkd().put(pickle.dumps({'comment_id':comment_id, 'functions':[geolocate_comment_local]}), pri=100000, delay=5)
 	return message
 	
 def process_comment(message={}):
@@ -131,7 +131,7 @@ def process_comment(message={}):
 		logging.error("$$$$ nytCommunity.process_comment:ERROR No Comment ID Provided")
 		return False
 	logging.info("$$$$ nytCommunity.process_comment["+message['comment_id']+"]")
-	comment = voxpop.VoxPopEnvironment.get_items().get(_id=message['comment_id'])
+	comment = voxpop.VPE.get_items().get(_id=message['comment_id'])
 	if comment is None:
 		logging.error("$$$$ nytCommunity.process_comment:ERROR No Comment Found")
 		return False
@@ -148,7 +148,7 @@ def geolocate_comment_local(message={}):
 		logging.error("$$$$ nytCommunity.geolocate_comment_local:ERROR No Comment ID Provided")
 		return False
 	logging.info("$$$$ nytCommunity.geolocate_comment_local["+str(message['comment_id'])+"]")
-	comment = voxpop.VoxPopEnvironment.get_items().get(_id=message['comment_id'])
+	comment = voxpop.VPE.get_items().get(_id=message['comment_id'])
 	if comment is None:
 		logging.error("$$$$ nytCommunity.geolocate_comment_local:ERROR No Comment Found")
 		return False
@@ -157,9 +157,9 @@ def geolocate_comment_local(message={}):
 		return False
 	_geo = vpGeo.geocoder().get_geo_local(comment.doc[u'location'])
 	if _geo is False:
-		with voxpop.VoxPopEnvironment.beanstalkd_lock:
-			voxpop.VoxPopEnvironment.get_beanstalkd().use("geocodegmaps")
-			voxpop.VoxPopEnvironment.get_beanstalkd().put(pickle.dumps({'comment_id':message['comment_id'], 'functions':[geolocate_comment_gmaps]}), pri=100000, delay=5)
+		with voxpop.VPE.beanstalkd_lock:
+			voxpop.VPE.get_beanstalkd().use("geocodegmaps")
+			voxpop.VPE.get_beanstalkd().put(pickle.dumps({'comment_id':message['comment_id'], 'functions':[geolocate_comment_gmaps]}), pri=100000, delay=5)
 		return True
 	comment.add_to_cache(_geo._id)
 	_myGeo = _geo.doc
@@ -172,7 +172,7 @@ def geolocate_comment_gmaps(message={}):
 		logging.error("$$$$ nytCommunity.geolocate_comment_gmaps:ERROR No Comment ID Provided")
 		return True
 	logging.error("$$$$ nytCommunity.geolocate_comment_gmaps["+str(message['comment_id'])+"]")
-	comment = voxpop.VoxPopEnvironment.get_items().get(_id=message['comment_id'])
+	comment = voxpop.VPE.get_items().get(_id=message['comment_id'])
 	if comment is None:
 		logging.error("$$$$ nytCommunity.geolocate_comment_gmaps:ERROR No Comment Found")
 		return True

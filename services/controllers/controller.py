@@ -1,6 +1,6 @@
 import logging, os, re, threading
 import simplejson as json
-import util as util
+import lib.typecode.util as util
 import voxpop as vp
 from config.config import *
 from lib import web
@@ -10,7 +10,7 @@ class Controller():
 	def __init__(self):
 		logging.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++")
 		logging.info("++++++++++++++++ Initting Controller ++++++++++++++++")
-		self.db = vp.VoxPopEnvironment.get_db()
+		self.db = vp.VPE.get_db()
 		
 	def render(self,template_name,template_values=None):
 		if template_values is None: template_values = {}

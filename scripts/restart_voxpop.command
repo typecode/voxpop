@@ -15,19 +15,25 @@ echo ''
 echo ''
 echo ' RESTARTING VOXPOP'
 echo ''
-echo ''
 
-echo '========MEMCACHED=============================='
+echo '========SHUTDOWN=============================='
 echo 'Killing memcached'
 killall memcached
+echo 'Killing beanstalkd'
+killall beanstalkd
+echo 'Killing python'
+killall python
+
+sleep 1
+
+echo ''
+echo '========MEMCACHED=============================='
 echo 'Starting memcached'
 memcached -d
 ps ax | grep memcached | grep -v grep | awk '{MEMCACHED=$1}'
 
 echo ''
 echo '========BEANSTALKD============================='
-echo 'Killing beanstalkd'
-killall beanstalkd
 [ -a '../run/beanstalkd' ] || mkdir '../run/beanstalkd'
 echo 'Starting beanstalkd'
 beanstalkd -d -f 500 -b "../run/beanstalkd"
@@ -35,9 +41,9 @@ ps ax | grep beanstalkd | grep -v grep | awk '{BEANSTALKD=$1}'
 
 echo ''
 echo '========VOXPOP================================='
-echo 'Killing python'
-killall python
 cd ../services
+echo 'Removing Precompiled .py Files'
+find . -name "*.pyc" -exec rm -rf {} \;
 echo 'Starting python'
 nohup python vp_producer.py 2> ../logs/vp_producer.log &
 nohup python vp_workers.py 2> ../logs/vp_workers.log &
